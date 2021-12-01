@@ -1,0 +1,44 @@
+@load ../extensions/file-loader.js ;
+@load ../extensions/string-extensions.js ;
+
+# ------ HELPER WORDS ------ #
+
+readInput: "1/input.txt" readfile ;
+readExampleInput: "1/example.txt" readfile ;
+fixInput:
+  newline strsplit
+  ["" !=] filter
+  [str2int] map ;
+
+checkIncrease:
+  dup
+  [1 drop 0 swappend] dip
+  [>] map2 ;
+countTrue: 0 [ [1] [0] branch + ] fold ;
+
+makeWindowSums:
+  dup dup
+  [
+    1 drop 0 swappend
+    [ 2 drop 0 swappend 0 swappend ] dip
+  ] dip
+  [+] map2
+  [+] map2
+  dup size 2 - take ;
+
+# ------ PROGRAM ------ #
+
+readInput
+fixInput
+checkIncrease
+countTrue
+"oppgave 1" .
+.
+
+readInput
+fixInput
+makeWindowSums
+checkIncrease
+countTrue
+"oppgave 2" .
+.

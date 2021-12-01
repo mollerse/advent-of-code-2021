@@ -1,0 +1,14 @@
+{
+  "name": "advent-2021",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "solve-1": "ait-lang 1/main.ait"
+  },
+  "keywords": [],
+  "author": "Stian Møllersen <stian.moellersen@gmail.com>",
+  "license": "CC-BY-NC-SA-4.0",
+  "dependencies": {
+    "ait-lang": "^0.3.3"
+  }
+}
