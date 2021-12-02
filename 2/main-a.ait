@@ -1,0 +1,53 @@
+@load ../extensions/file-loader.js ;
+@load ../extensions/string-extensions.js ;
+
+# ------ HELPER WORDS ------ #
+
+readInput: "2/input.txt" readfile ;
+readExampleInput: "2/example.txt" readfile ;
+
+fixInput:
+  newline strsplit
+  ["" !=] filter ;
+
+# v [...[test iftrue]] -> iftrue
+switch:
+  [exec ifte]
+  step
+  popd ;
+
+# ------ META WORDS ------ #
+
+# depth horizontal n -> depth' horizontal
+up: swap [-] dip ;
+down: swap [+] dip ;
+
+# depth horizontal n -> depth horizontal'
+forward: + ;
+
+# "cmd" -> [cmd]
+str2cmd:
+  [
+    [["forward" =] [[forward]] []]
+    [["up" =] [[up]] []]
+    [["down" =] [[down]] []]
+  ] switch ;
+
+createCommands:
+  [
+    " " strsplit
+    uncons uncons pop swap str2cmd [str2int] dip cons
+  ]
+  map
+  [] [concat] fold ;
+
+# ------ PROGRAM ------ #
+
+"oppgave 1" .
+
+0 0
+readInput
+fixInput
+createCommands
+exec
+* .
