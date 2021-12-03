@@ -1,0 +1,85 @@
+@load ../extensions/file-loader.js ;
+@load ../extensions/string-extensions.js ;
+
+# ------ HELPER WORDS ------ #
+
+readInput: "3/input.txt" readfile ;
+readExampleInput: "3/example.txt" readfile ;
+
+fixInput:
+  newline strsplit
+  ["" !=] filter
+  ["" strsplit [str2int] map] map ;
+
+# v n -> [v1...*vn]
+repeat: [] swap [dupd cons] times popd ;
+
+# v -> v'
+reverse: [] [swons] fold ;
+
+dup2: dupd dup rolldown ;
+succd: [succ] dip ;
+
+check2: "position -1" . [dup .] dip "position 0" . dup . ;
+
+# ------ DOMAIN WORDS ------ #
+
+# size [sumvector] -> [commonvector]
+mostCommon: dup [size repeat] dip [[<= [1] [0] branch] cons cons] map2 [exec] map ;
+leastCommon: dup [size repeat] dip [[> [1] [0] branch] cons cons] map2 [exec] map ;
+
+# v1 v2 -> v'
+addvectors: [+] map2 ;
+# v -> n
+numbits: dup 0 at size ;
+# n -> [0...0n]
+unitvector: 0 swap repeat ;
+# [...v] -> v'
+sumvectors: numbits unitvector [ addvectors ] fold ;
+
+#n [...vs]
+mostCommonBitOf:
+  dup [ size 0.5 * ] dip
+  sumvectors
+  mostCommon
+  of ;
+
+#n [...vs]
+leastCommonBitOf:
+  dup [ size 0.5 * ] dip
+  sumvectors
+  leastCommon
+  of ;
+
+
+# v -> n
+binary2dec: reverse 0 [2 _i pow * +] fold;
+
+# ------ PROGRAM ------ #
+
+"oppgave 1" .
+
+readInput
+fixInput
+
+dup [ size 0.5 * dup ] dip
+sumvectors
+[ mostCommon binary2dec ]
+[ leastCommon binary2dec ]
+cleave
+*
+.
+
+"oppgave 2" .
+
+# n b -> filterfn
+makeFilter: [=] cons [[at] cons] dip concat ;
+# a b -> a a b a b
+stackJuggle: dupd dup2 ;
+
+readInput
+fixInput
+[ 0 swap [small] [] [stackJuggle mostCommonBitOf swapd makeFilter filter succd] tailrec popd first binary2dec ]
+[ 0 swap [small] [] [stackJuggle leastCommonBitOf swapd makeFilter filter succd] tailrec popd first binary2dec ]
+cleave
+* .

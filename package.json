@@ -5,7 +5,8 @@
   "scripts": {
     "solve-1": "ait-lang 1/main.ait",
     "solve-2a": "ait-lang 2/main-a.ait",
-    "solve-2b": "ait-lang 2/main-b.ait"
+    "solve-2b": "ait-lang 2/main-b.ait",
+    "solve-3a": "ait-lang 3/main-a.ait"
   },
   "keywords": [],
   "author": "Stian Møllersen <stian.moellersen@gmail.com>",
